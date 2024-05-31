@@ -4,17 +4,14 @@ namespace Catalog.API.Context
 {
     public class CatalogDbContext : ApplicationDbContext
     {
-        static string connectionString = new ConfigurationBuilder()
+        static IConfiguration configuration = new ConfigurationBuilder()
             .SetBasePath(Directory
             .GetCurrentDirectory())
             .AddJsonFile("appsettings.json", true, true)
-            .Build().GetConnectionString("Catalog.API");
-        static string databaseName = new ConfigurationBuilder()
-            .SetBasePath(Directory
-            .GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true)
-            .Build().GetConnectionString("Catalog.API");
-        public CatalogDbContext(string connectionString, string databaseName) : base(connectionString, databaseName)
+            .Build();
+        static string connectionString = configuration.GetConnectionString("Catalog.API");
+        static string databaseName = configuration.GetValue<string>("DatabaseName");
+        public CatalogDbContext() : base(connectionString, databaseName)
         {
         }
     }
