@@ -9,7 +9,7 @@ using System.Net;
 
 namespace Catalog.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller][action]")]
     [ApiController]
     public class CatalogController : BaseController
     {
@@ -37,10 +37,11 @@ namespace Catalog.API.Controllers
             }
         }
 
+        
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
         [ResponseCache(Duration = 10)]
-        public IActionResult GetByCategory(string category)
+        public IActionResult GetByCategory([FromQuery]string category)
         {
             try
             {
@@ -53,7 +54,8 @@ namespace Catalog.API.Controllers
                 return CustomResult(ex.Message, HttpStatusCode.BadRequest);
             }
         }
-
+        
+        
         [HttpPost]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.Created)]
         public IActionResult SaveProduct([FromBody]Product product)
@@ -105,7 +107,7 @@ namespace Catalog.API.Controllers
 
         [HttpDelete]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
-        public IActionResult UpdateProduct([FromBody] string Id)
+        public IActionResult DeletProduct([FromQuery] string Id)
         {
             try
             {
@@ -128,10 +130,12 @@ namespace Catalog.API.Controllers
                 return CustomResult(ex.Message, HttpStatusCode.BadRequest);
             }
         }
+        
 
+        
         [HttpGet]
         [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
-        public IActionResult GetById(string Id)
+        public IActionResult GetById([FromQuery]string Id)
         {
             try
             {
@@ -144,5 +148,7 @@ namespace Catalog.API.Controllers
                 return CustomResult(ex.Message, HttpStatusCode.BadRequest);
             }
         }
+        
+        
     }
 }
