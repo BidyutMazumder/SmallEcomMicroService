@@ -8,7 +8,7 @@
         }
         public ShopingCart() { }
         public string UserName { get; set; }
-        public List<ShopingCartItem> items = new List<ShopingCartItem>();
+        public List<ShopingCartItem> items { get; set; } = new List<ShopingCartItem>();
         public decimal TotalPrice { get 
             {
                 decimal totalPrice = 0;
