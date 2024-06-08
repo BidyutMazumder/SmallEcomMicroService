@@ -4,7 +4,7 @@ using Catalog.API.Models;
 using MongoRepo.Context;
 using MongoRepo.Repository;
 
-namespace Catalog.API.Repository
+namespace Catalog.API.Ripositories
 {
     public class ProductRepository : CommonRepository<Product>, IProductRepository
     {

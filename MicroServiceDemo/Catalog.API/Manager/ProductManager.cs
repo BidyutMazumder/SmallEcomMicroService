@@ -1,6 +1,6 @@
 ﻿using Catalog.API.Interfaces.Manager;
 using Catalog.API.Models;
-using Catalog.API.Repository;
+using Catalog.API.Ripositories;
 using MongoRepo.Manager;
 using MongoRepo.Repository;
 
