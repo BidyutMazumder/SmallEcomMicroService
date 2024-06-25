@@ -13,14 +13,35 @@ namespace Discount.API.Ripositories
         {
             _configuration = configuration;
         }
-        public Task<bool> CreateDiscount(Coupon coupon)
+        public async Task<bool> CreateDiscount(Coupon coupon)
         {
-            throw new NotImplementedException();
+            var Connection = new NpgsqlConnection(_configuration.GetConnectionString("DiscountDB"));
+            var Affected = await Connection.ExecuteAsync
+                ("INSERT INTO public.coupon(productid, productname, description, amount)VALUES (@productid, @productname, @description, @amount)",
+                new { productid = coupon.ProductId, productname = coupon.ProductName, description = coupon.Description, amount = coupon.Amount });
+            if (Affected > 0)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
 
-        public Task<bool> DeleteDiscount(string productId)
+        public async Task<bool> DeleteDiscount(string productId)
         {
-            throw new NotImplementedException();
+            var Connection = new NpgsqlConnection(_configuration.GetConnectionString("DiscountDB"));
+            var Affected = await Connection.ExecuteAsync
+                ("DELETE FROM public.coupon WHERE productid = @productid;",
+                new { productid = productId});
+            if (Affected > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async Task<Coupon> GetDiscount(string productId)
@@ -30,13 +51,25 @@ namespace Discount.API.Ripositories
                 ("select * from Coupon where ProductId = @ProductId", new { ProductId = productId });
             if (Coupon == null)
             {
-                return 
+                return new Coupon { Amount = 0, ProductName = "No Discount" };
             }
+            return Coupon;
         }
 
-        public Task<bool> UpdateDiscount(Coupon coupon)
+        public async Task<bool> UpdateDiscount(Coupon coupon)
         {
-            throw new NotImplementedException();
+            var Connection = new NpgsqlConnection(_configuration.GetConnectionString("DiscountDB"));
+            var Affected = await Connection.ExecuteAsync
+                ("UPDATE public.coupon SET productid=@productid, productname=@productname, description=@description, amount=@amount WHERE productId = @productId;)",
+                new { productid = coupon.ProductId, productname = coupon.ProductName, description = coupon.Description, amount = coupon.Amount });
+            if (Affected > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
