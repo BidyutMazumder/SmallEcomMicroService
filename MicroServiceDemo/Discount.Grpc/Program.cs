@@ -1,8 +1,11 @@
+using Discount.Grpc.Ripositories.Abstraction;
+using Discount.Grpc.Ripositories;
 using Discount.Grpc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<ICuponRepository, CuponRepository>();
 builder.Services.AddGrpc();
 
 var app = builder.Build();

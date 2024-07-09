@@ -1,13 +1,13 @@
 ﻿using Dapper;
-using Discount.API.Models;
-using Discount.API.Ripositories.Abstraction;
+using Discount.Grpc.Models;
+using Discount.Grpc.Ripositories.Abstraction;
 using Npgsql;
 
-namespace Discount.API.Ripositories
+namespace Discount.Grpc.Ripositories
 {
     public class CuponRepository : ICuponRepository
     {
-        private readonly IConfiguration _configuration;
+        IConfiguration _configuration;
 
         public CuponRepository(IConfiguration configuration)
         {
