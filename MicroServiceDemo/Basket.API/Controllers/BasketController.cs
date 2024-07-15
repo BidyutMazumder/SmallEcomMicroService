@@ -1,4 +1,5 @@
-﻿using Basket.API.Models;
+﻿using Basket.API.GrpcServices;
+using Basket.API.Models;
 using Basket.API.Repositories.Abstraction;
 using CoreApiResponse;
 using Microsoft.AspNetCore.Http;
@@ -11,11 +12,14 @@ namespace Basket.API.Controllers
     [ApiController]
     public class BasketController : BaseController
     {
-        IBusketRepository _busketRepository;
-        public BasketController(IBusketRepository busketRepository)
+        private readonly IBusketRepository _busketRepository;
+        private readonly DiscountGrpcService _discountGrpcService;
+        public BasketController(IBusketRepository busketRepository, DiscountGrpcService discountGrpcService)
         {
-            _busketRepository = busketRepository;
+            this._busketRepository = busketRepository;
+            this._discountGrpcService = discountGrpcService;
         }
+
 
         [HttpGet]
         [ProducesResponseType(typeof(ShopingCart), (int)HttpStatusCode.OK)]
@@ -31,12 +35,19 @@ namespace Basket.API.Controllers
                 return CustomResult(ex.Message, HttpStatusCode.BadRequest);
             }
         }
+
+
         [HttpPost]
         [ProducesResponseType(typeof(ShopingCart), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateBasket([FromBody] ShopingCart basket)
         {
             try
             {
+                foreach (var item in basket.items)
+                {
+                    var coupon = await _discountGrpcService.GetDiscount(item.ProductId);
+                    item.Price -= coupon.Amount;
+                }
                 var Basket = await _busketRepository.UpdateBasket(basket);
                 return CustomResult("Product add to cart Successfully", Basket, HttpStatusCode.OK);
             }
@@ -45,6 +56,8 @@ namespace Basket.API.Controllers
                 return CustomResult(ex.Message, HttpStatusCode.BadRequest);
             }
         }
+
+
         [HttpDelete]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteBasket([FromQuery] string userName)

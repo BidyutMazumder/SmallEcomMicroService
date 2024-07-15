@@ -18,6 +18,7 @@ namespace Discount.Grpc.Services
             this._logger = logger;
             this._mapper = mapper;
         }
+
         public override async Task<CouponRequest> GetDiscount(GetDiscountRequest request, ServerCallContext context)
         {
             var coupon = await _cuponRepository.GetDiscount(request.ProductId);
