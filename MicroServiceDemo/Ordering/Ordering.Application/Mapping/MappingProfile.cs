@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Ordering.Application.Features.Orders.Commands.CreateOrder;
 using Ordering.Application.Features.Orders.Queries.GetOrdersByUserName;
 using Ordering.Domain.Models;
 using System;
@@ -13,7 +14,8 @@ namespace Ordering.Application.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<OrderVm, Order>().ReverseMap();
+            CreateMap<Order, OrderVm>().ReverseMap();
+            CreateMap<Order, CreateOrderCommand>().ReverseMap();
         }
     }
 }
