@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ordering.Application.Features.Orders.Commands.CreateOrder
+namespace Ordering.Application.Features.Orders.Commands.UpdateOrder
 {
-    public class CreateOrderCommand: IRequest<bool>
+    public class UpdateOrderCommand: IRequest<bool>
     {
+        public int Id { get; set; }
         public string UserName { get; set; }
         public Decimal Amount { get; set; }
 
@@ -30,5 +31,8 @@ namespace Ordering.Application.Features.Orders.Commands.CreateOrder
         public string CVV { get; set; }
         public string Exprition { get; set; }
         public int PaymentMethod { get; set; }
+
+        public string UpdatedBy { get; set; } = string.Empty;
+        public DateTime? UpdatedOn { get; set; }
     }
 }
