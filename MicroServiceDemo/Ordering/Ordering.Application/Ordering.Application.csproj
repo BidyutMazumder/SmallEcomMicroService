@@ -13,11 +13,12 @@
   <ItemGroup>
     <Folder Include="Behaviours\" />
     <Folder Include="Features\Orders\Commands\" />
-    <Folder Include="Features\Orders\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="EF.Core.Repository" Version="1.0.0.2" />
+    <PackageReference Include="MediatR" Version="12.3.0" />
   </ItemGroup>
 
 </Project>
