@@ -11,7 +11,7 @@ namespace Ordering.Domain.Models
     {
         public int Id { get; set; }
         public string UserName { get; set; }
-        public Decimal Amount { get; set; }
+        public Decimal TotalPrice { get; set; }
 
         //billing address
 
