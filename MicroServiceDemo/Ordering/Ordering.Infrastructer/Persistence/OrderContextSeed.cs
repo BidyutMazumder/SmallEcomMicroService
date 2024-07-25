@@ -24,6 +24,16 @@ namespace Ordering.Infrastructure.Persistence
                         EmailAddress = "Hriday.mder31@gmail.com",
                         Address = "Dhaka",
                         City = "Dhaka",
+                        CVV = "Test",
+                        CardName = "Test",
+                        CardNumber = "Test",
+                        Expiraton = "Test",
+                        PaymentMethod = 1,
+                        CreatedBy = "Test",
+                        CreatedOn = DateTime.Now,
+                        PhoneNumber = "01700000000",
+                        State = "Test",
+                        ZipCode = "Test"
                     }
                 );
         }

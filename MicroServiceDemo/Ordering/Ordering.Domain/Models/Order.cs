@@ -21,15 +21,15 @@ namespace Ordering.Domain.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public string Stat { get; set; }
+        public string State { get; set; }
         public string ZipCode { get; set; }
 
         // payment
 
-        public string CardNamer { get; set; }
+        public string CardName { get; set; }
         public string CardNumber { get; set; }
         public string CVV { get; set; }
-        public string Exprition { get; set; }
+        public string Expiraton { get; set; }
         public int PaymentMethod { get; set; }
 
     }
