@@ -3,9 +3,9 @@ using EF.Core.Repository.Repository;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Application.Contacts.Persistence;
 using Ordering.Domain.Models;
-using Ordering.Infrastructer.Persistence;
+using Ordering.Infrastructure.Persistence;
 
-namespace Ordering.Infrastructer.Repository
+namespace Ordering.Infrastructure.Repository
 {
     public class OrderRepository : CommonRepository<Order>, IOrderRepository
     {

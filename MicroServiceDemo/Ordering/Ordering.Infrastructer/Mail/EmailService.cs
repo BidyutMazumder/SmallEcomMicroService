@@ -1,7 +1,7 @@
 ﻿using Ordering.Application.Contacts.Infrastructure;
 using Ordering.Application.Models;
 using QuickMailer;
-namespace Ordering.Infrastructer.Mail
+namespace Ordering.Infrastructure.Mail
 {
     public class EmailService : IEmailService
     {
