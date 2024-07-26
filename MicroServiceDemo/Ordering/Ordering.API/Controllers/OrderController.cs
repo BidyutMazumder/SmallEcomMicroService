@@ -27,8 +27,8 @@ namespace Ordering.API.Controllers
         {
             try 
             { 
-                var order = _mediator.Send(new GetOrdersByUserQuery(userName));
-                if (order == null)
+                var order = await _mediator.Send(new GetOrdersByUserQuery(userName));
+                if (order.Count == 0)
                 {
                     return CustomResult("Order Not Found", HttpStatusCode.NotFound);
                 }
@@ -44,19 +44,19 @@ namespace Ordering.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Accepted)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateOrder(CreateOrderCommand orderCommand)
         {
             try
             {
-                var orderPlaced = _mediator.Send(orderCommand);
+                var orderPlaced = await _mediator.Send(orderCommand);
                 if (orderPlaced == null)
                 {
                     return CustomResult("Order Faield", HttpStatusCode.BadRequest);
                 }
                 else
                 {
-                    return CustomResult("Order Placed Successfully", orderPlaced, HttpStatusCode.Accepted);
+                    return CustomResult("Order Placed Successfully", orderPlaced, HttpStatusCode.Created);
                 }
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace Ordering.API.Controllers
         {
             try
             {
-                var orderPlaced = _mediator.Send(updateOrder);
+                var orderPlaced = await _mediator.Send(updateOrder);
                 if (orderPlaced == null)
                 {
                     return CustomResult("Update Order Faield", HttpStatusCode.BadRequest);
@@ -87,7 +87,7 @@ namespace Ordering.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteOrder(DeleteOrderCommand deleteOrder)
         {

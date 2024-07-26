@@ -25,7 +25,7 @@ namespace Ordering.Application.Features.Orders.Queries.GetOrdersByUserName
 
         // payment
 
-        public string CardNamer { get; set; }
+        public string CardName { get; set; }
         public string CardNumber { get; set; }
         public string CVV { get; set; }
         public string Exprition { get; set; }

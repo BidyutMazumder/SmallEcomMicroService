@@ -26,11 +26,14 @@ namespace Ordering.Application.Features.Orders.Commands.UpdateOrder
 
         // payment
 
-        public string CardNamer { get; set; }
+        public string CardName { get; set; }
         public string CardNumber { get; set; }
         public string CVV { get; set; }
-        public string Exprition { get; set; }
+        public string Expiraton { get; set; }
         public int PaymentMethod { get; set; }
+
+        public string CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }   
 
         public string UpdatedBy { get; set; } = string.Empty;
         public DateTime? UpdatedOn { get; set; }
