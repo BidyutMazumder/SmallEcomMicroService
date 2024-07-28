@@ -21,7 +21,7 @@ namespace Ordering.Application.Features.Orders.Commands.UpdateOrder
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public string Stat { get; set; }
+        public string State { get; set; }
         public string ZipCode { get; set; }
 
         // payment
