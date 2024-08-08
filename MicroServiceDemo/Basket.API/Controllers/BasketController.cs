@@ -73,5 +73,23 @@ namespace Basket.API.Controllers
             }
 
         }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
+        {
+            var basket = await _busketRepository.GetBasket(basketCheckout.UserName);
+            if (basket == null)
+            {
+                return CustomResult("Basket is Emply", HttpStatusCode.BadRequest);
+            }
+            //send checkout event to rabbitmq
+
+
+            // remove basket
+            await _busketRepository.DeleteBasket(basket.UserName);
+            return CustomResult("Order has been placed successfully.");
+
+        }
     }
 }

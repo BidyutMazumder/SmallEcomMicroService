@@ -12,9 +12,7 @@ namespace Ordering.Application.Features.Orders.Commands.UpdateOrder
         public int Id { get; set; }
         public string UserName { get; set; }
         public Decimal Amount { get; set; }
-
         //billing address
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
@@ -23,9 +21,7 @@ namespace Ordering.Application.Features.Orders.Commands.UpdateOrder
         public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
-
         // payment
-
         public string CardName { get; set; }
         public string CardNumber { get; set; }
         public string CVV { get; set; }
@@ -34,7 +30,6 @@ namespace Ordering.Application.Features.Orders.Commands.UpdateOrder
 
         public string CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }   
-
         public string UpdatedBy { get; set; } = string.Empty;
         public DateTime? UpdatedOn { get; set; }
     }
