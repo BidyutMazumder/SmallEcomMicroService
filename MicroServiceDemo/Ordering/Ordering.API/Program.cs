@@ -1,6 +1,9 @@
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Ordering.Application;
 using Ordering.Infrastructer;
+using EventBus.Messages.Common;
+using Ordering.API.EventbusConsumer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,22 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructerService(builder.Configuration);
 var app = builder.Build();
+
+
+builder.Services.AddMassTransit(config =>
+{
+    config.AddConsumer<BasketCheckoutConsumer>();
+    config.UsingRabbitMq((ctx, cfg) =>
+    {
+        cfg.Host(builder.Configuration["EventBusSettings:RabbitMQHost"]);
+        
+        cfg.ReceiveEndpoint(EventBusList.BasketCheckoutQueue, c => {
+            c.ConfigureConsumer<BasketCheckoutConsumer>(ctx);
+        });
+       
+    });
+
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

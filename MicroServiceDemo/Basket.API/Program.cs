@@ -3,6 +3,7 @@ using Basket.API.Repositories;
 using Basket.API.Repositories.Abstraction;
 using Discount.Grpc.Protos;
 using MassTransit;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IBusketRepository, BusketRepository>();
-
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 // rabbitmq configuration
 builder.Services.AddMassTransit(config =>
 {
