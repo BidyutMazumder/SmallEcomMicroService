@@ -15,7 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructerService(builder.Configuration);
-var app = builder.Build();
+
 
 
 builder.Services.AddMassTransit(config =>
@@ -32,6 +32,8 @@ builder.Services.AddMassTransit(config =>
     });
 
 });
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
