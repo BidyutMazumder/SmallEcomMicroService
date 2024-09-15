@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Ordering.Application.Contacts.Persistence;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,17 @@ namespace Ordering.Application.Features.Orders.Commands.DeleteOrder
     public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand, bool>
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IMapper mapper;
 
-        public DeleteOrderCommandHandler(IOrderRepository orderRepository)
+        public DeleteOrderCommandHandler(IOrderRepository orderRepository, IMapper mapper)
         {
             this._orderRepository = orderRepository;
+            this.mapper = mapper;
         }
         public async Task<bool> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            return await _orderRepository.DeleteAsync(new Domain.Models.Order() { Id = request.Id });
+            var res = await _orderRepository.DeleteAsync(new Domain.Models.Order() { Id = request.Id });
+            return res;
         }
     }
 }

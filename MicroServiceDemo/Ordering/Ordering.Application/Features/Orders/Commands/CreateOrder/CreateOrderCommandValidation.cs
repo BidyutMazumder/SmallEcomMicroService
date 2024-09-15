@@ -14,7 +14,7 @@ namespace Ordering.Application.Features.Orders.Commands.CreateOrder
             RuleFor(c => c.UserName).NotEmpty().WithMessage("Enter User Name")
                 .EmailAddress().WithMessage("Email should be your Username");
             RuleFor(c => c.EmailAddress).NotEmpty().WithMessage("Enter Your Mail");
-            RuleFor(c => c.Amount).GreaterThan(0).WithMessage("non negative");
+            RuleFor(c => c.TotalPrice).GreaterThan(0).WithMessage("non negative");
             
         }   
     }

@@ -4,6 +4,7 @@ using Ordering.Application;
 using Ordering.Infrastructer;
 using EventBus.Messages.Common;
 using Ordering.API.EventbusConsumer;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructerService(builder.Configuration);
 
-
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddMassTransit(config =>
 {

@@ -73,7 +73,7 @@ namespace Ordering.API.Controllers
 
 
 
-        [HttpPost]
+        [HttpPut]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateOrder(UpdateOrderCommand updateOrder)
         {
@@ -100,23 +100,22 @@ namespace Ordering.API.Controllers
 
         [HttpDelete]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> DeleteOrder(DeleteOrderCommand deleteOrder)
+        public async Task<IActionResult> DeleteOrder(int orderId)
         {
+
             try
             {
-                var orderPlaced = _mediator.Send(deleteOrder);
-                if (orderPlaced == null)
+                var isDelete = await _mediator.Send(new DeleteOrderCommand(orderId));
+                if (isDelete)
                 {
-                    return CustomResult("Delete Order Faield", HttpStatusCode.BadRequest);
+                    return CustomResult("Order has been deleted.");
                 }
-                else
-                {
-                    return CustomResult("Delete Order Successfully", orderPlaced, HttpStatusCode.OK);
-                }
+
+                return CustomResult("Order deleted failed.", HttpStatusCode.BadRequest);
             }
             catch (Exception ex)
             {
-                return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
+                return CustomResult(ex.Message, HttpStatusCode.BadRequest);
             }
         }
     }

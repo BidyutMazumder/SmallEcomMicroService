@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Basket.API.GrpcServices;
 using Basket.API.Models;
+using Basket.API.Repositories;
 using Basket.API.Repositories.Abstraction;
 using CoreApiResponse;
 using EventBus.Messages.Events;
@@ -35,12 +36,12 @@ namespace Basket.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(ShopingCart), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult>GetBasket([FromQuery]string userName)
+        public async Task<IActionResult> GetBasket(string userName)
         {
             try
             {
-                var Basket = await _busketRepository.GetBasket(userName);
-                return CustomResult("Basket data load successfully", Basket, HttpStatusCode.OK);
+                var basket = await _busketRepository.GetBasket(userName);
+                return CustomResult("Basket data load successfully.", basket ?? new ShopingCart(userName));
             }
             catch (Exception ex)
             {
@@ -49,7 +50,7 @@ namespace Basket.API.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPut]
         [ProducesResponseType(typeof(ShopingCart), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateBasket([FromBody] ShopingCart basket)
         {
@@ -91,19 +92,26 @@ namespace Basket.API.Controllers
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Checkout([FromBody] BasketCheckout basketCheckout)
         {
-            var basket = await _busketRepository.GetBasket(basketCheckout.UserName);
-            if (basket == null)
+            try
             {
-                return CustomResult("Basket is Emply", HttpStatusCode.BadRequest);
-            }
-            //send checkout event to rabbitmq
-            var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
-            eventMessage.TotalPrice = basket.TotalPrice;
-            await _publishEndpoint.Publish(eventMessage);
+                var basket = await _busketRepository.GetBasket(basketCheckout.UserName);
+                if (basket == null)
+                {
+                    return CustomResult("Basket is Emply", HttpStatusCode.BadRequest);
+                }
+                //send checkout event to rabbitmq
+                var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+                eventMessage.TotalPrice = basket.TotalPrice;
+                await _publishEndpoint.Publish(eventMessage);
 
-            // remove basket
-            await _busketRepository.DeleteBasket(basket.UserName);
-            return CustomResult("Order has been placed successfully.");
+                // remove basket
+                await _busketRepository.DeleteBasket(basket.UserName);
+                return CustomResult("Order has been placed successfully.");
+            }
+            catch (Exception e)
+            {
+                return CustomResult(e.Message, HttpStatusCode.BadRequest);
+            }
 
         }
     }
